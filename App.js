@@ -5,22 +5,7 @@ import { DrawerActions, NavigationContainer } from '@react-navigation/native';
 import HomeScreen from './components/HomeScreen.js';
 import LDDE from './LDDE/LDDE.js';
 import HASH from './HASH/HASH.js';
-
-function Feed() {
-  return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Feed Screen</Text>
-    </View>
-  );
-}
-
-function Article() {
-  return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Article Screen</Text>
-    </View>
-  );
-}
+import HEAP from './HEAP/HEAP.js';
 
 const Drawer = createDrawerNavigator();
 
@@ -31,6 +16,7 @@ export default function App() {
         <Drawer.Screen name="Home" component={HomeScreen} />
         <Drawer.Screen name="Double Linked List" component={LDDE} />
         <Drawer.Screen name="Hash table" component={HASH} />
+        <Drawer.Screen name="Heap" component={HEAP} />
       </Drawer.Navigator>
     </NavigationContainer>
   );

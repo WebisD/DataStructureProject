@@ -30,6 +30,7 @@
   },
   "devDependencies": {
     "@babel/core": "~7.9.0",
+    "install-peers": "^1.0.3",
     "react-native-svg-transformer": "^0.14.3"
   },
   "private": true

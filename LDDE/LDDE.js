@@ -23,7 +23,6 @@ class LDDE extends React.Component{
             currentAction: undefined,
         };
         this.handleChange = this.handleChange.bind(this);
-        this.handleLayoutChange = this.handleLayoutChange.bind(this);
     }
     
 
@@ -48,7 +47,7 @@ class LDDE extends React.Component{
     }
 
     remove(){
-        if (!this.isOptionValid()){
+        if (!this.isOptionValid() || this.state.LDDEarray.length === 0){
             return;
         }
 
@@ -137,15 +136,6 @@ class LDDE extends React.Component{
                 </View>
           </View>
         );
-    }
-
-    handleLayoutChange() {
-        this.feedPost.measure( (fx, fy, width, height, px, py) => {
-          console.log('Component width is: ' + width)
-          console.log('Component height is: ' + height)
-          console.log('X offset to page: ' + px)
-          console.log('Y offset to page: ' + py)
-        })
     }
 
     render(){

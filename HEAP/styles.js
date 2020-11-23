@@ -5,30 +5,43 @@ const styles = StyleSheet.create({
     outerContainer: {
         display: 'flex',
         justifyContent: "center",
-        alignItems: "center",
+        //alignItems: "center",
         justifyContent: 'space-between',
         height: '90%'
     },
 
     structureContainer:{
-        //flex: 1,
-        //flexWrap: 'wrap',
-        //alignContent: 'flex-start',
-        ///justifyContent: 'flex-start',
         display: 'flex',
+        alignItems: 'flex-end',
         flexDirection: 'row',
         alignContent: 'center',
+        marginBottom: 30,
         marginRight: 30,
-        //marginLeft: 30,
+        marginLeft: 30,
     },
 
+    
     bottom: {
         width: '100%',
         marginBottom: 40,
         display: 'flex',
-        //justifyContent: 'flex-end',
+        justifyContent: 'flex-end',
         flexDirection: 'row',
-        justifyContent: 'space-evenly',
+        justifyContent: 'space-evenly'
+    },
+
+    tree:{
+        //position: 'absolute',
+        height: '70%',
+        width: '50%',
+    },
+
+    fixed: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
     },
 
     centeredView: {
