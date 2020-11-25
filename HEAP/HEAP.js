@@ -1,4 +1,4 @@
-import React, { forwardRef, Component } from "react";
+import React, { forwardRef, Component, NativeModules } from "react";
 import {
   Alert,
   Modal,
@@ -16,12 +16,13 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Dimensions } from 'react-native';
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
+import Svg, {Line } from 'react-native-svg';
 
 class HEAP extends React.Component{
     constructor(props){
         super(props);
         this.state={
-            HEAParray: [9,8,7,6,5,4],
+            HEAParray: [],
             textValue: '',
             modalVisible: false,
         }
@@ -47,6 +48,14 @@ class HEAP extends React.Component{
             return -1;
         }
         return this.dad(n-1);
+    }
+
+    hasChild(index){
+        var n = this.tempArray.length;
+        if (this.leftSon(index) < n || this.rightSon(index) < n){
+            return true;
+        }
+        return false;
     }
 
     sift(index){
@@ -136,7 +145,7 @@ class HEAP extends React.Component{
                 <View style={styles.modalView}>
                     <Text style={styles.modalText}>Insert a value</Text>
 
-                    <TextInput style={styles.modalInput} value={this.state.textValue} onChangeText={this.handleChange}/>
+                    <TextInput style={styles.modalInput} keyboardType='numeric' value={this.state.textValue} onChangeText={this.handleChange}/>
                     
                     <TouchableHighlight
                         style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
@@ -156,7 +165,7 @@ class HEAP extends React.Component{
         this.tempArray = this.state.HEAParray;
         const matrix = [];
 
-        matrix.push([{value:this.tempArray[0], dad: undefined, place: (windowWidth/2.5)}]);
+        matrix.push([{value:this.tempArray[0], dad: undefined, child: this.hasChild(0)}]);
         
         var pos = 2;
         var temp = [];
@@ -177,9 +186,10 @@ class HEAP extends React.Component{
                 }
             }
 
-            console.log("Pai do " + this.tempArray[i] + " : "  + this.tempArray[this.dad(i)] + " no indice: " + Iindex + " " + Jindex);
-
-            temp.push({value:this.tempArray[i], dad: this.dad(i), place: ((i%2===0) ? (matrix[Iindex][Jindex].place + 200/pos) : (matrix[Iindex][Jindex].place - 200/pos)) });
+            //console.log("Pai do " + this.tempArray[i] + " : "  + this.tempArray[this.dad(i)] + " no indice: " + Iindex + " " + Jindex);
+            //console.log("PAAAI" + this.dad(i));
+            temp.push({value:this.tempArray[i], dad: this.dad(i), child: this.hasChild(i)});
+                //            temp.push({value:this.tempArray[i], dad: this.dad(i), place: ((i%2===0) ? (matrix[Iindex][Jindex].place/* + 200*//pos + 30) : (matrix[Iindex][Jindex].place/* - 200*//pos + 30)) });
 
             if (i+1 == this.tempArray.length){
                 matrix.push(temp);
@@ -188,30 +198,34 @@ class HEAP extends React.Component{
             
         }
 
-        console.log(matrix);
-    
-        pos = 1;
+        var restofRow = Array(pos - matrix[matrix.length-1].length).fill({value:' ', dad: undefined, child: false});
+        //console.log(matrix[matrix.length-1].length + " / " + pos + " - " + restofRow);
+        
+        matrix[matrix.length-1] = matrix[matrix.length-1].concat(restofRow);
+        //console.log(matrix[matrix.length-1]);
+        //console.log("AQUI JAZ o POS: " + pos);
+
         return(
-            <View style={styles.tree}>
-                
+            <ScrollView ref="scroll" centerContent={true} horizontal={true} style={{height:'70%', width:'100%' ,backgroundColor: 'white'}} onChange={()=> console.log("AAAA" + contentSize.height)}>
+                <ScrollView>
                     {matrix.map((row, i) => (
-                        <View key={i}>
+                        <View key={i} style={{display:'flex', flexDirection: 'row', justifyContent:'center', marginLeft: 10, marginRight:20}}>
                             {
                                 row.map((col, j) =>(
-                                    (col.value !== undefined) ? <Circle text={col.value} key={j} position={col.place} altura={i}/> : null
+                                    (col.value !== undefined) ? <Circle text={col.value} key={j++} quant={row.length} altura={pos} side={j} yside={i} isDad={col.child}/>: null
                                 ))
                             }
                         </View>
                     ))}
-
-            </View>
+                </ScrollView>
+            </ScrollView>
         );
     }
 
     render(){
         const { modalVisible } = this.state;
         return(
-            <View style={{...styles.outerContainer, backgroundColor:"gray"}}>
+            <View style={styles.outerContainer}>
                 <Modal 
                     animationType="slide"
                     transparent={true}
@@ -223,10 +237,9 @@ class HEAP extends React.Component{
                     {this.makeChange()}
                 </Modal>
 
-                        {this.printTree()}
-     
+                {this.printTree()}
 
-                <ScrollView horizontal={true} /*onContentSizeChange={(width, height) => {console.log(width, height);}}*/>
+                <ScrollView horizontal={true} style={{backgroundColor:'#86a2c2', marginBottom: 10}}>
                     <View style={styles.structureContainer}>
                         {this.state.HEAParray.map((num, index) => (
                             <Square text={num} ind={index} key={index} isLast={0}/>

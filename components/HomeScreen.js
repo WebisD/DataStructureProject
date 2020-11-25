@@ -11,10 +11,10 @@ const HomeScreen = ({navigation}) => {
                 <Text style={styles.homeButtonText}>LDDE</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.homeButton} onPress={() => alert('Hello, world!')}>
-                <Text style={styles.homeButtonText}>LDDE</Text>
+                <Text style={styles.homeButtonText}>HASH</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.homeButton} onPress={() => alert('Hello, world!')}>
-                <Text style={styles.homeButtonText}>LDDE</Text>
+                <Text style={styles.homeButtonText}>HEAP</Text>
             </TouchableOpacity>
 
         </View>

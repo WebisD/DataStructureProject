@@ -119,7 +119,7 @@ class HASH extends React.Component{
                 <View style={styles.modalView}>
                     <Text style={styles.modalText}>Insert a value</Text>
 
-                    <TextInput style={styles.modalInput} value={this.state.textValue} onChangeText={this.handleChange}/>
+                    <TextInput style={styles.modalInput} keyboardType='numeric' value={this.state.textValue} onChangeText={this.handleChange}/>
                     
                     <TouchableHighlight
                         style={{ ...styles.openButton, backgroundColor: "#2196F3" }}

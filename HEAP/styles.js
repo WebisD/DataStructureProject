@@ -11,13 +11,30 @@ const styles = StyleSheet.create({
     },
 
     structureContainer:{
+        height: 50,
         display: 'flex',
-        alignItems: 'flex-end',
         flexDirection: 'row',
-        alignContent: 'center',
-        marginBottom: 30,
-        marginRight: 30,
-        marginLeft: 30,
+        alignSelf: 'center',
+        marginLeft: 20,
+        marginRight: 20,
+    },
+
+    innerContainer: {
+        display: 'flex',
+    },
+
+    scrollViewStyle: {
+        position: 'absolute',
+        height: '30%',
+        top: 0,
+        bottom: 0,
+        left: 0,
+        right: 0,
+        paddingTop: 60
+    },
+
+    mainView: {
+        flex: 1,
     },
 
     
