@@ -1,4 +1,4 @@
-import React, { forwardRef, Component } from "react";
+import React from "react";
 import {
   Alert,
   Modal,
@@ -7,11 +7,11 @@ import {
   View,
   TextInput,
   ScrollView,
+  Animated,
 } from "react-native";
 import Square from '../components/square2Pointers';
 import styles from './styles.js';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-
 
 class LDDE extends React.Component{
     constructor(props){
@@ -21,69 +21,82 @@ class LDDE extends React.Component{
             textValue: '',
             modalVisible: false,
             currentAction: undefined,
+            intValue: undefined,
+            opacOut: [],
+            currentColor: [],
         };
         this.handleChange = this.handleChange.bind(this);
     }
-    
 
-    insert(){
+    checkValue(){
+        if (this.state.currentAction === "insert"){
+            if (!this.isOptionValid()){
+                return;
+            }
+            var value = parseInt(this.state.textValue); 
+            var index;
+            for (index = 0; this.state.LDDEarray[index] < value; index++);
 
-        if (!this.isOptionValid()){
-            return;
+            var opc = this.state.opacOut;
+            opc.push(new Animated.Value(1));
+            this.setState({intValue: value});
+
+            this.setState({opacOut: opc}, ()=>{this.insert(index)});
         }
+        else if (this.state.currentAction === "remove"){
+            if (!this.isOptionValid() || this.state.LDDEarray.length === 0){
+                return;
+            }
+            var value = parseInt(this.state.textValue);
+            var index;
+            for (index = 0; this.state.LDDEarray[index] < value; index++);
 
-        var value = parseInt(this.state.textValue);
+            if (this.state.LDDEarray[index] !== value){
+                return;
+            }
 
-        var index;
-        for (index = 0; this.state.LDDEarray[index] < value; index++);
+            this.setState({intValue: value}, ()=>{this.removeAnimation(index)});
+        }
+        else if (this.state.currentAction === "search"){
+            if (!this.isOptionValid() || this.state.LDDEarray.length === 0){
+                return;
+            }
+            var value = parseInt(this.state.textValue);
+            this.setState({intValue: value}, ()=>{this.setState({textValue: ''})});
+            var index;
+            var colors =[];
+            for (let i = 0; i < this.state.LDDEarray.length; i++) {
+                colors.push(new Animated.Value(1));   
+            }
+            
+            for (index = 0; this.state.LDDEarray[index] < value; index++);
+            this.setState({currentColor: colors}, ()=>{
+                {this.percorreArray(0)}
+            });
+        
+        }   
+    }
 
+    insert(index){
+        var value = this.state.intValue;
         this.setState({textValue: ''}, ()=>{
             this.setState({LDDEarray: [...this.state.LDDEarray.slice(0,index), 
                                         value, 
                                         ...this.state.LDDEarray.slice(index)]})
         });
-
-        //this.makeConetions();
     }
 
-    remove(){
-        if (!this.isOptionValid() || this.state.LDDEarray.length === 0){
-            return;
-        }
-
-        var value = parseInt(this.state.textValue);
-        var index;
-        for (index = 0; this.state.LDDEarray[index] < value; index++);
-
-        if (this.state.LDDEarray[index] !== value){
-            return;
-        }
-
+    remove(index){
         var tempArray = this.state.LDDEarray;
         tempArray.splice(index, 1);
-        
+
         this.setState({LDDEarray: tempArray});
         this.setState({textValue: ''});
-        //this.makeConetions();
-    }
-    
-    /*makeConetions(){
-        
-        var size = this.state.LDDEarray.length;
-        var tempArray = [];
-     
-        for (let i = 0; i < size; i++) {
 
-            tempArray.push({
-                start: i.toString(),
-                end: (i+1).toString(),
-                strokeWidth: 2,
-                endAnchor: 'middle',
-            });
-        }
-        this.setState({pointerArrows: tempArray});
-        console.log(tempArray);
-    }*/
+        var ops = this.state.opacOut;
+        ops.splice(index, 1);
+        this.setState({opacOut: ops});
+    }
 
     isOptionValid(){
         if (this.state.textValue.length === 0 || 
@@ -91,11 +104,60 @@ class LDDE extends React.Component{
             this.state.textValue.indexOf('.')!==-1){
         return false;
         }
+        if (parseInt(this.state.textValue) >= 10000){
+            alert('Insira um valor menor que 10000');
+            return false;
+        }
         return true;
     }
 
     clear(){
         this.setState({LDDEarray: []})
+    }
+
+    removeAnimation(index){
+        Animated.timing(
+            this.state.opacOut[index],{
+                duration: 1000,
+                toValue: 0,
+                useNativeDriver: false,
+            }
+        ).start(()=>{this.remove(index)});
+    }
+    
+
+    searchAnimation(index){
+        Animated.sequence([
+            Animated.timing(
+                this.state.currentColor[index],{
+                    duration: 500,
+                    toValue: 0,
+                    useNativeDriver: false,
+                }
+            ),
+            Animated.timing(
+                this.state.currentColor[index],{
+                    duration: 500,
+                    toValue: 1,
+                    useNativeDriver: false,
+                }
+            )
+        ]).start(()=>{(this.state.intValue === this.state.LDDEarray[index]) ? alert('Elemento encontrado no indice: ' + index) : this.percorreArray(index+1)});
+    }
+
+    percorreArray(index){
+        var value = this.state.intValue;
+        if (value > this.state.LDDEarray[index]){
+            this.searchAnimation(index);
+        }
+        else if (value === this.state.LDDEarray[index]){
+            this.searchAnimation(index);
+        }
+        else{
+            if (value !== this.state.LDDEarray[index-1] || value < this.state.LDDEarray[index-1] || index-1 === this.state.LDDEarray.length)
+                alert("Elemento não encontrado");   
+            return;
+        }
     }
 
     handleChange(e) {
@@ -105,10 +167,6 @@ class LDDE extends React.Component{
     setModalVisible = (visible, option) => {
         this.setState({modalVisible: visible });
         this.setState({currentAction: option});
-    }
-
-    updateChoosenOption = (action) => {
-        this.setState({currentAction: action});
     }
 
     makeChange = () => {
@@ -123,12 +181,7 @@ class LDDE extends React.Component{
                         style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
                         onPress={() => {
                             {this.setModalVisible(false)};
-                            if (this.state.currentAction == "insert"){
-                                {this.insert()};
-                            }
-                            else if (this.state.currentAction == "remove"){
-                                {this.remove()};
-                            }
+                            {this.checkValue()};
                         }}
                     >
                         <Text style={styles.textStyle}>OK</Text>
@@ -138,8 +191,16 @@ class LDDE extends React.Component{
         );
     }
 
+    intToColor(index){
+        return (this.state.currentColor[index] === undefined) ? undefined : this.state.currentColor[index].interpolate({
+            inputRange: [0,1],
+            outputRange: ['rgb(104, 121, 227)', 'rgb(255,255,255)']
+        })
+    }
+
     render(){
         const { modalVisible } = this.state;
+
         return(
             <View style={styles.outerContainer}>
                 <Modal 
@@ -152,10 +213,11 @@ class LDDE extends React.Component{
                 > 
                     {this.makeChange()}
                 </Modal>
+
                 <ScrollView horizontal={true}>
                     <View style={styles.structureContainer}>
                         {this.state.LDDEarray.map((num, index) => (
-                            <Square text={num} ind={index} key={index} isLast={(index+1 < this.state.LDDEarray.length) ? 1 : 0}/>
+                            <Square colorC={this.intToColor(index)} opa={this.state.opacOut[index]} text={num} ind={index} key={index} isLast={(index+1 < this.state.LDDEarray.length) ? 1 : 0}/>
                         ))}
                     </View>
                 </ScrollView>   
@@ -172,7 +234,7 @@ class LDDE extends React.Component{
                     <TouchableHighlight
                         style={styles.openButton}
                         onPress={() => {
-                            this.setModalVisible(true, "remove");
+                            (this.state.LDDEarray.length > 0) ? this.setModalVisible(true, "remove") : alert("Insira algum valor na LDDE");
                         }}
                     >
                         <Icon name="delete" size={30} color='white'/>
@@ -180,7 +242,7 @@ class LDDE extends React.Component{
                     <TouchableHighlight
                         style={styles.openButton}
                         onPress={() => {
-                            this.setModalVisible(true, "remove");
+                            (this.state.LDDEarray.length > 0) ? this.setModalVisible(true, "search") : alert("Insira algum valor na LDDE");
                         }}
                     >
                         <Icon name="magnify" size={30} color='white'/>
@@ -194,6 +256,7 @@ class LDDE extends React.Component{
                         <Icon name="restart" size={30} color='white'/>
                     </TouchableHighlight>
                 </View>
+
             </View>
         );
     }

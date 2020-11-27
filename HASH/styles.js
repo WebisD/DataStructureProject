@@ -21,26 +21,10 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
     },
 
-    /*structureContainer:{
-        flex: 1,
-        flexDirection: 'column',
-        alignItems: 'center',
-        height:'100%'
-    },*/
-
-    /*structureContainer:{
-        flex: 1,
-        flexWrap: 'wrap',
-        alignContent: 'flex-start',
-        justifyContent: 'flex-start',
-        flexDirection: 'row',
-    },*/
-
     bottom: {
         width: '100%',
         marginBottom: 40,
         display: 'flex',
-        //justifyContent: 'flex-end',
         flexDirection: 'row',
         justifyContent: 'space-evenly',
     },

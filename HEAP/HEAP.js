@@ -1,4 +1,4 @@
-import React, { forwardRef, Component, NativeModules } from "react";
+import React from "react";
 import {
   Alert,
   Modal,
@@ -7,16 +7,11 @@ import {
   View,
   TextInput,
   ScrollView,
-  ActionSheetIOS,
 } from "react-native";
 import Square from '../components/vectorSquare';
 import Circle from '../components/circle';
 import styles from './styles.js';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { Dimensions } from 'react-native';
-const windowWidth = Dimensions.get('window').width;
-const windowHeight = Dimensions.get('window').height;
-import Svg, {Line } from 'react-native-svg';
 
 class HEAP extends React.Component{
     constructor(props){
@@ -175,9 +170,6 @@ class HEAP extends React.Component{
                 pos = pos*2;
                 temp=[];
             }
-            
-            var Iindex = undefined;
-            var Jindex = undefined;
 
             for (let j = 0; j < matrix.length; j++) {
                 if (matrix[j].findIndex(element => element.value === this.tempArray[this.dad(i)]) !== -1){
@@ -186,10 +178,7 @@ class HEAP extends React.Component{
                 }
             }
 
-            //console.log("Pai do " + this.tempArray[i] + " : "  + this.tempArray[this.dad(i)] + " no indice: " + Iindex + " " + Jindex);
-            //console.log("PAAAI" + this.dad(i));
             temp.push({value:this.tempArray[i], dad: this.dad(i), child: this.hasChild(i)});
-                //            temp.push({value:this.tempArray[i], dad: this.dad(i), place: ((i%2===0) ? (matrix[Iindex][Jindex].place/* + 200*//pos + 30) : (matrix[Iindex][Jindex].place/* - 200*//pos + 30)) });
 
             if (i+1 == this.tempArray.length){
                 matrix.push(temp);
@@ -199,14 +188,11 @@ class HEAP extends React.Component{
         }
 
         var restofRow = Array(pos - matrix[matrix.length-1].length).fill({value:' ', dad: undefined, child: false});
-        //console.log(matrix[matrix.length-1].length + " / " + pos + " - " + restofRow);
         
         matrix[matrix.length-1] = matrix[matrix.length-1].concat(restofRow);
-        //console.log(matrix[matrix.length-1]);
-        //console.log("AQUI JAZ o POS: " + pos);
 
         return(
-            <ScrollView ref="scroll" centerContent={true} horizontal={true} style={{height:'70%', width:'100%' ,backgroundColor: 'white'}} onChange={()=> console.log("AAAA" + contentSize.height)}>
+            <ScrollView ref="scroll" centerContent={true} horizontal={true} style={{height:'70%', width:'100%' ,backgroundColor: 'white'}}>
                 <ScrollView>
                     {matrix.map((row, i) => (
                         <View key={i} style={{display:'flex', flexDirection: 'row', justifyContent:'center', marginLeft: 10, marginRight:20}}>

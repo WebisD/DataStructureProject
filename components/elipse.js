@@ -1,50 +1,56 @@
 import React from "react";
-import { View, TouchableHighlight} from 'react-native';
+import { Animated} from 'react-native';
 import Svg, { Text, Ellipse } from 'react-native-svg';
 import Arrow from './arrow.js';
-import styles from './styles.js';
-import { Dimensions } from 'react-native';
-const windowWidth = Dimensions.get('window').width;
-const windowHeight = Dimensions.get('window').height;
-const Elipse = (props) => {
-    return(
-        <View>
-            <Svg height="90%" width="100%" /*style={{ backgroundColor: '#33AAFF' }}*/>
-                <Arrow id="0" from={[138,255]} to={[215,35]} last={1}/>
-                <Arrow id="1" from={[138,255]} to={[215,85]} last={1}/>
-                <Arrow id="2" from={[138,255]} to={[215,135]} last={1}/>
-                <Arrow id="3" from={[138,255]} to={[215,185]} last={1}/>
-                <Arrow id="4" from={[138,255]} to={[215,235]} last={1}/>
-                <Arrow id="5" from={[140,255]} to={[215,285]} last={1}/>
-                <Arrow id="6" from={[140,255]} to={[215,325]} last={1}/>
-                <Arrow id="7" from={[140,255]} to={[215,375]} last={1}/>
-                <Arrow id="8" from={[140,255]} to={[215,425]} last={1}/>
-                <Arrow id="9" from={[140,255]} to={[215,475]} last={1}/>
-                
-                <Svg height="100" width="220">
-                    <Ellipse 
-                        cx="40%"
-                        cy="50%"
-                        rx="50"
-                        ry="30"
-                        stroke="#cccc00"
-                        strokeWidth="2"
-                    />
-                    <Text
-                        fill="black"
-                        stroke="black"
-                        fontSize="20"
-                        x="41%" y="51%" 
-                        dominant-baseline="middle" 
-                        text-anchor="middle"
-                        textAnchor="middle"
-                    >
-                    {props.text}
-                    </Text>
+
+
+class Elipse extends React.Component{
+
+    constructor(props){
+        super(props);
+        console.log(this.props.index + " " + this.props.colorArrow);
+    }
+
+    render(){
+        return(
+            <Animated.View>
+                <Svg height="90%" width="100%">
+                    <Arrow colorArrow={(this.props.index === 0) ? this.props.colorArrow : undefined} from={[138,255]} to={[215,35]} last={1}/>
+                    <Arrow colorArrow={(this.props.index === 1) ? this.props.colorArrow : undefined} from={[138,255]} to={[215,85]} last={1}/>
+                    <Arrow colorArrow={(this.props.index === 2) ? this.props.colorArrow : undefined} from={[138,255]} to={[215,135]} last={1}/>
+                    <Arrow colorArrow={(this.props.index === 3) ? this.props.colorArrow : undefined} from={[138,255]} to={[215,185]} last={1}/>
+                    <Arrow colorArrow={(this.props.index === 4) ? this.props.colorArrow : undefined} from={[138,255]} to={[215,235]} last={1}/>
+                    <Arrow colorArrow={(this.props.index === 5) ? this.props.colorArrow : undefined} from={[140,255]} to={[215,285]} last={1}/>
+                    <Arrow colorArrow={(this.props.index === 6) ? this.props.colorArrow : undefined} from={[140,255]} to={[215,325]} last={1}/>
+                    <Arrow colorArrow={(this.props.index === 7) ? this.props.colorArrow : undefined} from={[140,255]} to={[215,375]} last={1}/>
+                    <Arrow colorArrow={(this.props.index === 8) ? this.props.colorArrow : undefined} from={[140,255]} to={[215,425]} last={1}/>
+                    <Arrow colorArrow={(this.props.index === 9) ? this.props.colorArrow : undefined} from={[140,255]} to={[215,475]} last={1}/>
+                    
+                    <Svg height="100" width="220">
+                        <Ellipse 
+                            cx="40%"
+                            cy="50%"
+                            rx="50"
+                            ry="30"
+                            stroke="#cccc00"
+                            strokeWidth="2"
+                        />
+                        <Text
+                            fill="black"
+                            stroke="black"
+                            fontSize="20"
+                            x="41%" y="51%" 
+                            dominant-baseline="middle" 
+                            text-anchor="middle"
+                            textAnchor="middle"
+                        >
+                        {this.props.text}
+                        </Text>
+                    </Svg>
                 </Svg>
-            </Svg>
-        </View>
-    );
+            </Animated.View>
+        );
+    }
 };
 
-export default Elipse;
+export default Animated.createAnimatedComponent(Elipse);

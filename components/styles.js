@@ -39,6 +39,20 @@ const styles = StyleSheet.create({
         top: (windowHeight)/3,
         left: 30,
     },
+
+    openButton: {
+        backgroundColor: "#2196F3",
+        borderRadius: 50,
+        padding: 10,
+        elevation: 2,
+    },
+
+    helpGuide:{
+        paddingVertical: 15,
+        paddingHorizontal: 10,
+        flexDirection: "row",
+        alignItems: "center",
+    },
 })
 
 export default styles;

@@ -5,7 +5,6 @@ const styles = StyleSheet.create({
     outerContainer: {
         display: 'flex',
         justifyContent: "center",
-        //alignItems: "center",
         justifyContent: 'space-between',
         height: '90%'
     },
@@ -48,7 +47,6 @@ const styles = StyleSheet.create({
     },
 
     tree:{
-        //position: 'absolute',
         height: '70%',
         width: '50%',
     },

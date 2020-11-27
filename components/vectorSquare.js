@@ -1,8 +1,6 @@
 import React from "react";
-import { View, TouchableHighlight} from 'react-native';
+import { View} from 'react-native';
 import Svg, { Text, Rect } from 'react-native-svg';
-import styles from './styles.js';
-import Arrow from '../components/arrow.js';
 
 const Square = (props) => {
     return(
