@@ -8,7 +8,6 @@ class Elipse extends React.Component{
 
     constructor(props){
         super(props);
-        console.log(this.props.index + " " + this.props.colorArrow);
     }
 
     render(){
