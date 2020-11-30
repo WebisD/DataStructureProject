@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "dataStructuresReact",
+    "name": "Data Structures",
     "slug": "dataStructuresReact",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -17,9 +17,11 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.webis.datastructures"
     },
     "android": {
+      "package": "com.webis.datastructures",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
@@ -28,7 +30,6 @@
     "web": {
       "favicon": "./assets/favicon.png"
     },
-
     "packagerOpts": {
       "config": "metro.config.js",
       "sourceExts": [

@@ -10,7 +10,7 @@ const HomeScreen = ({navigation}) => {
             <Text>(Arraste para a lado para o menu)</Text>
 
             <Text style={{fontSize: 20, marginTop:20}}>Click in:</Text>
-            
+            <View>
             <View style={styles.helpGuide}>
                 <TouchableHighlight style={styles.openButton}>
                         <Icon name="pencil-plus" size={20} color='white'/>
@@ -54,7 +54,7 @@ const HomeScreen = ({navigation}) => {
                         color: "black"
                     }}>To restart </Text>
             </View>
-
+            </View>
         </View>
     );
 };
